@@ -1,0 +1,21 @@
+Job,ability_id,ability_name,potency,damage_type
+SCH,25865,Broil IV,295,direct
+SCH,17870,Ruin II,220,direct
+SCH,1001895,Biolysis,70,magic-dot
+SCH,167,Energy Drain,100,direct
+SCH,7,attack,100,auto
+SCH,25866,Art of War II,180,direct
+SGE,24312,Dosis III,330,direct
+SGE,1002616,Eukrasian Dosis III,70,magic-dot
+SGE,24315,Dyskrasia II,170,direct
+SGE,24316,Toxikon II,330,direct
+SGE,24318,Pneuma,330,direct
+SGE,24313,Phlegma III,600,direct
+SGE,7,attack,100,auto
+WHM,7,attack,100,auto
+WHM,25859,Glare III,310,direct
+WHM,25860,Holy III,150,direct
+WHM,16535,Afflatus Misery,1240,direct
+WHM,1001871,Dia,65,magic-dot
+WHM,16532,Dia Application,65,direct
+WHM,3571,Assize,400,direct

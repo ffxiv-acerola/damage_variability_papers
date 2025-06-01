@@ -1,0 +1,80 @@
+\documentclass[journal,twocolumn]{IEEEtran}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{import}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{threeparttable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\definecolor{midblue}{HTML}{0099ad}
+\definecolor{midpurple}{HTML}{5842ff}  
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=midblue,    % internal links
+    citecolor=black,      % citations
+    urlcolor=midpurple    % external urls
+}
+
+\newcommand{\bufficons}[1]{%
+  \foreach \i in {#1} {%
+    \csname\i\endcsname\buffspace
+  }%
+}
+
+% Define commands for buff icons
+\newcommand{\iconsize}{1.37em} % Adjust size as needed
+
+\newcommand{\wm}{\includegraphics[height=\iconsize]{img/icons/wm.png}}
+\newcommand{\mb}{\includegraphics[height=\iconsize]{img/icons/mb.png}}
+\newcommand{\ap}{\includegraphics[height=\iconsize]{img/icons/ap.png}}
+\newcommand{\bv}{\includegraphics[height=\iconsize]{img/icons/bv.png}}
+\newcommand{\rf}{\includegraphics[height=\iconsize]{img/icons/rf.png}}
+\newcommand{\rs}{\includegraphics[height=\iconsize]{img/icons/rs.png}}
+
+% Helper command to add a small space between icons
+\newcommand{\buffspace}{\hspace{0.3em}}
+
+\begin{document}
+
+\title{An approximate damage model for Bard}
+\author{Acerola Paracletus (Cactuar, Aether)*
+\thanks{* Corresponding author: @cherryjesus (Discord)}}
+
+\maketitle
+
+\begin{abstract}
+Bard has proc effects, which grant the additional usage of abilities or allow for the execution of higher-damaging weaponskills. Both types of procs introduce damage variability in addition to standard sources. Methods were developed to quantify how proc statistics impact Bard's damage variability, including all Repertoire-based procs and Refulgent Arrow. The additional damage variability due to procs was compared to damage variability that exists solely from hit types and random damage rolls when the most probable proc rates are assumed. While there can be a substantial increase in damage variability for specific actions, the effect is negligible for a realistic rotation. For a two-minute sequence, accounting for procs only led to the standard deviation of the DPS distribution increasing by 9.5\%, compared to assuming most probable values. These findings suggest that damage variability due to procs is negligible compared to hit type variability and random damage rolls. For tools which model damage variability, assuming the most probable proc rates is sufficient for the majority of use cases.
+\end{abstract}
+
+\import{sections/}{intro.tex}
+\import{sections/}{methods.tex}
+\import{sections/}{mages_ballad.tex}
+\import{sections/}{wanderers_minuet.tex}
+\import{sections/}{armys_paeon.tex}
+\import{sections/}{apex_arrow.tex}
+\import{sections/}{refulgent_arrow.tex}
+\import{sections/}{full_cycle.tex}
+
+
+
+\section{Conclusion}
+
+This paper developed methods to assess Bard's proc-based mechanics and quantified their impact relative to standard sources of damage variance. Individual proc-dependent abilities demonstrated substantial increases in damage variability, from 8\% for Refulgent Arrow to 69\% for Heartbreak Shot under Mage's Ballad. Their collective impact on overall rotation variance proved remarkably modest. 
+For a representative two-minute cycle, accounting for all proc variability increased the standard deviation of the DPS distribution by only 9.5\%. This limited impact stems from the relatively high probability of Repertoire procs (80\%), the averaging effect of multiple independent proc types across a rotation, and the fact that proc variance predominantly increases the likelihood of below-average DPS realizations.
+
+From both theoretical and practical perspectives, these findings suggest that theorycrafters and tool builders can generally assume the most probable proc rates without sacrificing substantial accuracy. The computational simplification gained far outweighs the minor precision gained from fully accounting for proc variability, especially for longer encounters where variance further diminishes. The asymmetric nature of proc variability affects lower damage percentiles more than higher ones, indicating high damage percentile runs are independent of ``lucky" or ``unlucky" proc rates. Rather than representing a significant source of damage variability in practice, Bard's proc mechanics primarily serve as an engaging gameplay element that adds decision-making to the rotation.
+
+\import{sections/}{appendix.tex}
+
+\bibliographystyle{ieeetr} 
+\bibliography{yourbibfile} 
+
+\end{document}

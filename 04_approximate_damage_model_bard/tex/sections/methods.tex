@@ -1,0 +1,56 @@
+\section{Methodology}
+
+The methods for calculating damage distributions are briefly reviewed. An action has a base damage (damage before any damage variability is introduced) of $D$. A critical hit increases $D$ by the critical hit damage multiplier, $\lambda_c$, and a direct hit increases $D$ by the direct hit multiplier, $\lambda_d = 1.25$. A critical-direct hit is multiplicative, $\lambda_c \lambda_d$. After hit type is determined, a $\pm 5\%$ damage roll from a uniform distribution is applied. The one-hit damage distribution for action $i$, $P(D_i)$, is a mixture distribution for all hit types, weighted by the respective probability of each hit type. The damage distribution for $n$ hits can be computed by self-convolving the one-hit distribution $n-1$ times,
+
+\begin{equation}
+    P(D_i; n) = P(D_i; n^\prime = 1)^{\ast n-1}
+\end{equation}
+
+Where the $\cdot^{\ast n-1}$ denotes self-convolution $n-1$ times. If there are multiple actions, the overall damage distribution is computed by convolving each $n$ hit damage distribution for all actions. Note that any factor like buffs (damage and hit type), medication, weakness, etc. results in a different one hit damage distribution and must be treated separately, even for the same action. Damage distributions are computed using the ffxiv\_stats package.\footnote{\href{https://github.com/ffxiv-acerola/ffxiv_stats}{github.com/ffxiv-acerola/ffxiv\_stats}}
+
+The damage distribution when $n$ itself is a discrete, randomly distributed variable can also be computed by a mixture distribution that is weighted by probability for all possible different counts of $n$, $\{n\}$,
+
+\begin{equation}
+    P(D_i; \{n\}) = \sum_{k \in \{n\}} w_i(k) P(D_i; n = k)
+    \label{eqn:dmg-mixture}
+\end{equation}
+
+A more detailed description is given in \href{https://github.com/ffxiv-acerola/damage_variability_papers/blob/main/02_damage_distributions_deterministic_stochastic/Damage%20distributions%20for%20deterministic%20and%20stochastic%20rotations.pdf}{``Damage distributions for deterministic and stochastic rotations"}, §3. In this work, most sections aim to find $w_i(k)$ for action $i$. This is accomplished by deriving the probability distribution for $k$ procs, such that $w_i(k) \equiv P_i(k)$.
+
+All damage values are centered around Burst Shot having a base damage of 10,000. All buff strengths are from Patch 7.2. Hit type statistics correspond to 3,000 points of Critical Hit stat and 2,000 points of Direct Hit Rate stat at level 100. Specific values used throughout the paper are tabulated in Table \ref{t:combat-params}.
+
+\begin{table}[H]
+\centering
+\caption{Base damage values and combat simulation parameters.}
+\label{t:combat-params}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Action name} & $\mathbf{D}$ & \textbf{Combat parameter}  & \textbf{Value} \\ \midrule
+Burst Shot           & 10,000      & Raging Strikes             & 15\%                   \\
+Heartbreak Shot      & 8,181       & Radiant Finale (3)         & 6\%                    \\
+PP1                  & 4,545       & Mage's Ballad              & 1\%                    \\
+PP3                  & 16,363      & Battle Voice (DHR)         & 20\%                   \\
+Refulgent Arrow      & 12,727      & \makecell[lt]{The Wanderer's\\Minuet (CH)} & 2\%    \\
+Apex Arrow (80)      & 21,818      & Army's Paeon (DHR)         & 3\%                    \\
+Apex Arrow (100)     & 27,272      & $p_n$                      & 52.632\%        \\
+Blast Arrow          & 27,272      & $p_c$                      & 16.168\%        \\
+                     &             & $p_d$                      & 23.868\%        \\
+                     &             & $p_{cd}$                   &  7.332\%        \\
+                     &             & CH multiplier              & 1.585         \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Songs and Repertoire Procs}
+
+Repertoire is a mechanic specific to Bard's songs. The buff effect of a song is on a 3s cadence, with the first tick occurring 3s after a song is activated. Each tick has an 80\% chance of granting Repertoire, which grants song-specific proc effects. These effects generally allow for the additional execution of damaging abilities, so they are a source of damage variability.
+
+For the full 45s duration of a song, there are a maximum of $n_r = 15$ Repertoire procs. The probability of achieving $k_r$ Repertoire procs is binomially distributed,
+
+\begin{equation}
+    P_r(k_r; n_r, p_r) = \binom{n_r}{k_r} p_r^{k_r} (1-p_r)^{n_r-k_r}.
+    \label{eqn:rep-proc-distribution}
+\end{equation}
+
+Most of the additional damage from procs requires multiple Repertoire procs to be granted, so further analysis is needed and is specific to each song. In addition, the usage of Empyreal Arrow guarantees that Repertoire is granted.
+
+Under standard gameplay, the song sequence cycles from The Wanderer's Minuet $\rightarrow$ Mage's Ballad $\rightarrow$ Army's Paeon. There are two general song sequences that can be performed, 3-3-12 and 3-6-9. The numbers represent when to switch to the next song, based on the time remaining for the current song. Another important between cycle timings is when Empyreal Arrow is used, which affects how Repertoire procs are counted. Examples will roughly be for a 3-6-9 song sequence, although the analyses performed can accommodate either song sequence.

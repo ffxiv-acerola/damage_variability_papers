@@ -10,3 +10,4 @@ Text and accompanying code used for write ups on modeling damage variability in 
 
 3. [**Sampling damage distributions**](/03_sampling_damage_distributions/sampling-damage-distributions.ipynb): An application of previously developed theory. Views performing a rotation as sampling a damage distribution and discusses applications for speed kills and parsing. How to generate rotations via the FFLogs API is also shown.
 
+4. [**An approximate damage model for Bard**](/04_approximate_damage_model_bard/tex/bard_damage_model.pdf): The extent at which procs affect Bard's overall damage variability, using methods developed from [paper 02](/02_damage_distributions_deterministic_stochastic/Damage%20distributions%20for%20deterministic%20and%20stochastic%20rotations.pdf). For most use cases, accounting for procs is unnecessary. 

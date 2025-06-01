@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "brd-proc-rng"
+version = "0.1.0"
+description = "Theorycrafting for computing damage distributions accounting for Bard's proc RNG."
+authors = ["Acerola Paracletus"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^2.2.5"
+scipy = "^1.15.2"
+matplotlib = "^3.10.1"
+ipykernel = "^6.29.5"
+seaborn = "^0.13.2"
+ffxiv-stats = "^0.6.0"
+nbimporter = "^0.3.4"
+nbformat = "^5.10.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
